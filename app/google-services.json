@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1031279862093",
+    "project_id": "fir-arnau-4660b",
+    "storage_bucket": "fir-arnau-4660b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1031279862093:android:0603528709e2e84a2b5704",
+        "android_client_info": {
+          "package_name": "com.example.firebasetemplate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1031279862093-a12stjue1koeaab5tgius3n9gdagm392.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlvmysb-TAUdWIBsxB3SAazD6oz4mmfcQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1031279862093-a12stjue1koeaab5tgius3n9gdagm392.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
