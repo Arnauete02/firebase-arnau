@@ -45,19 +45,6 @@ public class MainActivity extends AppCompatActivity {
                 binding.bottomNavView.setVisibility(View.VISIBLE);
             }
         });
-
-        class Post {
-            public String title;
-            public String message;
-
-            Post(String t, String m) {
-                title = t;
-                message = m;
-            }
-        }
-
-        FirebaseFirestore.getInstance().collection("posts").add(new Post("Hello", "hello world!"));
-
     }
 
     @Override
