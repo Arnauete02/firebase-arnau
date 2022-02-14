@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -38,32 +39,39 @@ public class NewPostFragment extends AppFragment {
         binding.previsualizacion.setOnClickListener(v -> seleccionarImagen());
 
         appViewModel.uriImagenSeleccionada.observe(getViewLifecycleOwner(), uri -> {
-            Glide.with(this).load(uri).into(binding.previsualizacion);
-            uriImg = uri;
+            if (uri != null) {
+                Glide.with(this).load(uri).into(binding.previsualizacion);
+                uriImg = uri;
+            }
         });
 
         binding.publicar.setOnClickListener(v -> {
-            binding.publicar.setEnabled(false);
+            if (uriImg != null) {
+                binding.publicar.setEnabled(false);
 
-            FirebaseStorage.getInstance()
-                    .getReference("/images/"+ UUID.randomUUID()+".jpg")
-                    .putFile(uriImg)
-                    .continueWithTask(task -> task.getResult().getStorage().getDownloadUrl())
-                    .addOnSuccessListener(urlDescarga -> {
-                        Post post = new Post();
-                        post.content = binding.contenido.getText().toString();
-                        post.authorName = FirebaseAuth.getInstance().getCurrentUser().getEmail();
-                        post.date = LocalDateTime.now().toString();
-                        post.imageUrl = urlDescarga.toString();
+                FirebaseStorage.getInstance()
+                        .getReference("/images/" + UUID.randomUUID() + ".jpg")
+                        .putFile(uriImg)
+                        .continueWithTask(task -> task.getResult().getStorage().getDownloadUrl())
+                        .addOnSuccessListener(urlDescarga -> {
+                            Post post = new Post();
+                            post.content = binding.contenido.getText().toString();
+                            post.authorName = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+                            post.date = LocalDateTime.now().toString();
+                            post.imageUrl = urlDescarga.toString();
 
-                        FirebaseFirestore.getInstance()
-                                .collection("posts")
-                                .add(post)
-                                .addOnCompleteListener(task -> {
-                                    binding.publicar.setEnabled(true);
-                                    navController.popBackStack();
-                                });
-            });
+                            FirebaseFirestore.getInstance()
+                                    .collection("posts")
+                                    .add(post)
+                                    .addOnCompleteListener(task -> {
+                                        appViewModel.setUriImagenSeleccionada(null);
+                                        binding.publicar.setEnabled(true);
+                                        navController.popBackStack();
+                                    });
+                        });
+            } else {
+                Toast.makeText(getContext(), "Puja una imatge", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

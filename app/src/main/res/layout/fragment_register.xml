@@ -26,6 +26,12 @@
             android:layout_height="wrap_content"
             android:hint="Password"/>
 
+        <EditText
+            android:id="@+id/usernameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username" />
+
         <Button
             android:id="@+id/createAccountButton"
             android:layout_width="match_parent"

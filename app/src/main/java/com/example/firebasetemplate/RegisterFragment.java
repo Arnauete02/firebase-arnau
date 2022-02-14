@@ -41,6 +41,11 @@ public class RegisterFragment extends AppFragment {
                 binding.passwordEditText.setError("Required");
                 return;
             }
+            if (binding.usernameEditText.getText().toString().isEmpty() ) {
+                binding.usernameEditText.setError("Required");
+                return;
+            }
+
             FirebaseAuth.getInstance()
                     .createUserWithEmailAndPassword(
                             binding.emailEditText.getText().toString(),

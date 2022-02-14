@@ -15,6 +15,7 @@ import com.example.firebasetemplate.databinding.ViewholderPostBinding;
 import com.example.firebasetemplate.model.Post;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
@@ -42,7 +43,9 @@ public class PostsHomeFragment extends AppFragment {
         setQuery().addSnapshotListener((collectionSnapshot, e) -> {
             postsList.clear();
             for (DocumentSnapshot documentSnapshot: collectionSnapshot) {
-                postsList.add(documentSnapshot.toObject(Post.class));
+                Post post = documentSnapshot.toObject(Post.class);
+                post.postid = documentSnapshot.getId();
+                postsList.add(post);
             }
             adapter.notifyDataSetChanged();
         });
@@ -62,9 +65,19 @@ public class PostsHomeFragment extends AppFragment {
 
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-            holder.binding.contenido.setText(postsList.get(position).content);
-            holder.binding.autor.setText(postsList.get(position).authorName);
-            Glide.with(requireContext()).load(postsList.get(position).imageUrl).into(holder.binding.imagen);
+            Post post = postsList.get(position);
+
+            holder.binding.contenido.setText(post.content);
+            holder.binding.autor.setText(post.authorName);
+            Glide.with(requireContext()).load(post.imageUrl).into(holder.binding.imagen);
+
+            holder.binding.favorito.setOnClickListener(v -> {
+                db.collection("posts").document(post.postid)
+                        .update("likes."+ auth.getUid(),
+                                post.likes.containsKey(auth.getUid()) ? true : FieldValue.delete());
+            });
+
+            holder.binding.favorito.setChecked(post.likes.containsKey(auth.getUid()));
         }
 
         @Override
