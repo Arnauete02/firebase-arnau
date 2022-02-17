@@ -36,6 +36,7 @@ public class NewPostFragment extends AppFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        binding.previsualizacion.setImageAlpha(R.drawable.ic_baseline_add_a_photo_24);
         binding.previsualizacion.setOnClickListener(v -> seleccionarImagen());
 
         appViewModel.uriImagenSeleccionada.observe(getViewLifecycleOwner(), uri -> {

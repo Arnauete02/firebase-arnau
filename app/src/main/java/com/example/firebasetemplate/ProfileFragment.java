@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 
 import com.example.firebasetemplate.databinding.FragmentPostsBinding;
 import com.example.firebasetemplate.databinding.FragmentProfileBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.Query;
 
 
 public class ProfileFragment extends AppFragment {
@@ -26,5 +28,10 @@ public class ProfileFragment extends AppFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        //binding.profileImage.setImageURI(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl());
+        //binding.usernameProfile.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
     }
+
+
+
 }
